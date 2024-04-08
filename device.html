@@ -1,0 +1,69 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts and styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/assets/icon.ico">
+  <link rel="stylesheet" href="/css/device.css" />
+  <link rel="stylesheet" href="/css/common.css" />
+  <script src="/js/tailwindcss.js"></script>
+  <title>ExamLock Lite</title>
+</head>
+
+<body>
+  <!-- logo and profile line -->
+  <div class="navbar p-2.5 flex flex-wrap text-lg font-medium">
+    <img src="/assets/icon.svg" />
+    ExamLock Lite
+    <span class="flex-auto"></span>
+    <button id="profile">
+      <img class="h-8" src="https://www.svgrepo.com/show/23012/profile-user.svg" />
+    </button>
+  </div>
+  <hr />
+  <div class="videoSection my-0 mx-2">
+    <h6 class="text-base font-medium">Device Preview</h6>
+    <div>
+      <video class="rounded" id="live" autoplay></video>
+      <!-- video button section -->
+      <div class="btn-section">
+        <button class="btn"><img src="/assets/keyboard_voice.svg" /></button>
+        <button class="btn">
+          <img src="/assets/volume_up.svg" /></button>
+        <button class="btn"><img src="/assets/Proctor icon.svg" /></button>
+        <button class="btn"><img src="/assets/more_horiz.svg" /></button>
+      </div>
+    </div>
+    <!-- info check section -->
+    <div class="flex flex-wrap justify-center items-center text-sm font-semibold mb-3">
+      <div class="flex flex-wrap">
+        <img src="./assets/camera.svg" alt="camera-icon" />
+        <span class="mx-1">Camera:</span> <img class="my-auto h-4" id="camera" src="/assets/loading.gif"
+          alt="loading" />
+      </div>
+      <div class="mx-2 flex flex-wrap">
+        <img src="./assets/Microphone.svg" alt="mic-icon" />
+        <span class="mx-1">Microphone:</span> <img class="my-auto h-4" id="microphone" src="/assets/loading.gif"
+          alt="loading" />
+      </div>
+      <div class="mx-2 flex flex-wrap">
+        <img src="/assets/Screen Share.svg" /><span class="mx-1">Video Bitrate:</span>
+        <span id="video-stat">Loading...</span>
+      </div>
+      <div class="mx-2 flex flex-wrap">
+        <img src="/assets/Screen Share.svg" /><span class="mx-1">Audio Bitrate:</span>
+        <span id="audio-stat">Loading...</span>
+      </div>
+    </div>
+    <button class="w-full bg-teal-600 text-slate-100 font-semibold rounded p-1 hover:bg-teal-700"
+      id="exam-continue">Continue</button>
+  </div>
+  <script src="/js/device.js"></script>
+</body>
+
+</html>

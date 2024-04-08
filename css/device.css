@@ -1,0 +1,55 @@
+
+.videoSection {
+  padding: 0;
+  margin: 0;
+}
+
+ video {
+  width: 650px;
+  height: fit-content;
+  position: relative;
+}
+
+.btn-section {
+  position: relative;
+  bottom: 3rem;
+  width: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-section button {
+  margin: 0 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: #7f8584;
+  color: rgb(255, 255, 255);
+  opacity: 0.65;
+}
+
+.btn-section button:hover {
+  color: #fff;
+}
+
+#exam-stop {
+  padding: 10px 0;
+  margin: 5px 0 0 10px;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+.check-section{
+  color: #4f4f4f;
+  font-weight: 500;
+  display: flex;
+  flex: flexwrap;
+  justify-content: center;
+  gap: 20px;
+}

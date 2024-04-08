@@ -1,0 +1,114 @@
+/* RAM design */
+.ram-container {
+  background-color: #dfdfdf;
+  border-radius: 20px;
+  height: 5px;
+  width: 350px;
+}
+
+.ram-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1889c5;
+  border-radius: 20px;
+  color: #fff;
+  height: 100%;
+  width: 0;
+  transition: 1s ease 0.3s;
+}
+
+/* cpu design section */
+.cpu-container {
+  background-color: #dfdfdf;
+  border-radius: 20px;
+  height: 5px;
+  width: 360px;
+}
+
+.cpu-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1889c5;
+  border-radius: 20px;
+  color: #fff;
+  height: 100%;
+  width: 0;
+  transition: 1s ease 0.3s;
+}
+
+.config .cpu p {
+  margin: 0 0 10px 0;
+  font-size: small;
+  font-weight: 500;
+  padding-top: 10px;
+}
+
+.core-container {
+  background-color: #dfdfdf;
+  border-radius: 20px;
+  height: 5px;
+  width: 350px;
+}
+
+/* core  progress bar designs*/
+#core-chart {
+  width: 350px;
+  height: 165px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 10px;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+.item {
+  width: 90%;
+  padding: 0;
+  margin: 10px 0px;
+}
+
+#core-chart span {
+  width: 150px;
+  font-size: x-small;
+  margin: 0;
+  padding: 0;
+}
+
+#core-chart .core-percentage {
+  width: 20px;
+  margin: 0;
+  padding-left: 75%;
+}
+
+/* progress bar for core utilization */
+progress[value] {
+  --color: #1889c5;
+  --background: lightgrey;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  height: 5px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 10em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-bar {
+  border-radius: 10em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-value {
+  border-radius: 10em;
+  background: var(--color);
+}
+progress[value]::-moz-progress-bar {
+  border-radius: 10em;
+  background: var(--color);
+}
+progress::-webkit-progress-value {
+  transition: width 1s ease;
+}

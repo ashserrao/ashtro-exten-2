@@ -1,0 +1,91 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts and styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/assets/icon.ico">
+  <link rel="stylesheet" href="/css/hardConfig.css" />
+  <link rel="stylesheet" href="/css/common.css" />
+  <script src="/js/tailwindcss.js"></script>
+  <title>ExamLock Lite</title>
+</head>
+
+<body class="canvas">
+  <!-- logo and profile line -->
+  <div class="navbar p-2.5 flex flex-wrap text-lg font-medium">
+    <img src="/assets/icon.svg" />
+    ExamLock Lite
+    <span class="flex-auto"></span>
+    <button id="profile">
+      <img class="h-8" src="https://www.svgrepo.com/show/23012/profile-user.svg" />
+    </button>
+  </div>
+  <hr />
+  <!-- main content -->
+  <div class="my-0 mx-2">
+    <!-- sub header -->
+    <h6 class="text-base font-medium">System Check</h6>
+    <div class="border rounded overflow-y-scroll" id="clickcard">
+      <h6 class="text-sm font-medium my-1 mx-2">Hardware Configurations</h6>
+      <hr />
+      <div class="my-1 mx-2 text-sm font-normal">
+        <!-- RAM UI section -->
+        <div class="text-xs font-medium">
+          <div class="flex flex-wrap align-center">
+            <img class="h-fit mr-1" src="./assets/ram.svg" alt="ram-icon" />RAM:
+            <span class="mx-1" id="ram-capacity"></span><img class="h-4 mx-1 my-auto" id="ram-reqimg"
+              src="/assets/loading.gif">
+          </div>
+          <div class="text-xs font-medium my-1 whitespace-nowrap">
+            <p class=" w-full flex flex-wrap">Overall RAM Usage<span class="flex flex-auto"></span><span class="mx-1"
+                id="ram-usage">0%</span><img class="h-4 my-auto" id="ram-usedimg" src="/assets/loading.gif">
+            </p>
+          </div>
+          <!-- RAM UI progressbar section -->
+          <div class="ram-container w-full my-2">
+            <div class="ram-progress"></div>
+          </div>
+        </div>
+        <!-- CPU UI section -->
+        <div class="my-1">
+          <!-- CPU info section -->
+          <div class="text-xs font-medium flex flex-wrap my-2">
+            <div class="my-1 flex flex-wrap items-center"><img class="mr-1" src="/assets/memory.svg" />
+              <span>Processor:</span>
+            </div>
+            <span class="flex flex-auto"></span>
+            <span class="text-xs text-right my-1 w-auto max-w-44 font-semibold mx-1" id="cpu-model">Loading...</span>
+            <img id="cpu-name" class="my-auto h-4" src="/assets/loading.gif" />
+          </div>
+          <div class="text-xs font-medium flex flex-wrap align-center my-2">
+            <div class="my-1 flex flex-wrap"><img class="mr-1" src="/assets/memory.svg" /> CPU Cores:</div>
+            <span class="flex flex-auto"></span>
+            <span class="my-1 text-right w-auto max-w-44 font-semibold mx-1" id="cpu-core">Loading...</span>
+            <img id="core-number" class="h-4 my-auto" src="/assets/loading.gif" />
+          </div>
+        </div>
+        <!-- CPU info progressbar section -->
+        <div class="cpu-chart my-2">
+          <div class="text-xs font-medium">
+            <p class="w-full flex flex-wrap whitespace-nowrap my-2"><span>Overall CPU Usage</span><span
+                class="flex flex-auto"></span> <span class="mx-1" id="cpu-usage">0%</span><img id="cpu-req"
+                class="my-auto h-4" src="/assets/loading.gif" /></p>
+            <div class="cpu-container">
+              <div class="cpu-progress"></div>
+            </div>
+            <div id="core-chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/js/chart.umd.min.js"></script>
+  <script src="/js/hardConfig.js"></script>
+</body>
+
+</html>

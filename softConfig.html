@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts and styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="/assets/icon.ico">
+  <link rel="stylesheet" href="/css/hardConfig.css" />
+  <link rel="stylesheet" href="/css/common.css" />
+  <script src="/js/tailwindcss.js"></script>
+  <title>ExamLock Lite</title>
+</head>
+
+<body class="canvas">
+  <!-- logo and profile line -->
+  <div class="navbar p-2.5 flex flex-wrap text-lg font-medium">
+    <img src="/assets/icon.svg" />
+    ExamLock Lite
+    <span class="flex-auto"></span>
+    <button id="profile">
+      <img class="h-8" src="https://www.svgrepo.com/show/23012/profile-user.svg" />
+    </button>
+  </div>
+  <hr />
+  <!-- main content -->
+  <div class="my-0 mx-2">
+    <h6 class="text-base font-medium">System Check</h6>
+    <div class="border rounded overflow-y-scroll" id="clickcard">
+      <h6 class="text-sm font-medium my-1 mx-2">Software Configurations</h6>
+      <hr />
+      <!-- info section -->
+      <div class="mx-1 my-2 text-xs font-medium">
+        <div class="my-1 flex flex-wrap">
+          <img src="/assets/OS Check.svg" /><span class="mx-1 my-auto">OS Check:</span>
+          <span class="flex flex-auto"></span>
+          <span class="mx-1" id="os-check">Loading...</span>
+          <img class="my-auto h-4" id="os-req" src="/assets/loading.gif" />
+        </div>
+        <div class="my-1 flex flex-wrap">
+          <img src="/assets/globe.svg" /><span class="mx-1 my-auto">Browser Check:</span>
+          <span class="flex flex-auto"></span>
+          <span class="mx-1" id="browser-check">Loading...</span>
+          <img class="my-auto h-4" id="brow-req" src="/assets/loading.gif" />
+        </div>
+        <div class="my-1 flex flex-wrap">
+          <img src="/assets/globe.svg" /><span class="mx-1 my-auto">Network Status:</span>
+          <span class="flex flex-auto"></span>
+          <span class="mx-1" id="net-stat">Loading...</span>
+          <img class="my-auto h-4" id="net-req" src="/assets/loading.gif" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/softConfig.js"></script>
+  <script src="/js/browser-lib.js"></script>
+</body>
+
+</html>
