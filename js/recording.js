@@ -137,18 +137,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //battery status info ============================================
   function genVideoBackup() {
+    // console.log("backup func from rec.js");
     let message = {
       info: "generate videoBackup",
     };
     chrome.runtime.sendMessage(message, (response) => {
       videoBackupRequest = response;
+      // console.log("signal generated!!!", videoBackupRequest);
       if (videoBackupRequest === true) {
         console.log("backup generated!!!");
         playPauseVideo();
       }
       // console.log("video backup request:", response);
     });
-
   }
 
   //video starting function====================================================

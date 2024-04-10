@@ -23,7 +23,17 @@ function triggerExtension() {
 setInterval(function () {
   triggerExtension();
   getBattDetails();
+  getNetworkDetails();
 }, 5000);
+
+//battery status info ============================================
+function getNetworkDetails() {
+ if (navigator.onLine) {
+   console.log(`Connected/${navigator.connection.effectiveType}`);
+ } else {
+   console.log("Not Connected");
+ }
+}
 
 //battery status info ============================================
 function getBattDetails() {
@@ -37,10 +47,10 @@ function getBattDetails() {
         msg: "Flagging low battery alert.",
       };
       chrome.runtime.sendMessage(message, (response) => {
-        console.log("response from background.js", response);
+        // console.log("response from background.js", response);
       });
       backupStatus = true;
-      console.log("requesting video backup trigger");
+      // console.log("requesting video backup trigger");
       requestVideoBackup();
     } else if (battChargeStatus === false && backupStatus === true) {
       console.log(`${battLevel}%`);
@@ -77,6 +87,9 @@ document.addEventListener("DOMContentLoaded", function () {
         `Window offset changed: offsetX=${offsetX}, offsetY=${offsetY}`
       );
       console.log("return to full screen");
+      setTimeout(() => {
+        // makeTabFullScreen();
+      }, 5000)
     });
     disabledEvent(e);
   });
@@ -284,12 +297,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //request video backup ===================================
 function requestVideoBackup() {
+  console.log("requestVideoBackup function is running");
+  console.log(`${loginStatus}`);
   if (loginStatus === true) {
     let message = {
       info: "request videobackup",
     };
     chrome.runtime.sendMessage(message, (response) => {
-      console.log("Check if working:", response);
+      // console.log("Check if working:", response);
     });
     // console.log("backup request triggered");
   } else {

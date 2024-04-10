@@ -70,12 +70,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } else if (message.info === "request videobackup") {
     sendResponse("request acheived");
     videoBackupRequest = true;
-    console.log(`video backup request generated: ${videoBackupRequest}`);
+    // console.log(`video backup request received: ${videoBackupRequest}`);
   } else if (message.info === "generate videoBackup") {
-    sendResponse(videoBackupRequest);
+    // console.log( `video backup from background.js ${videoBackupRequest}`);
+    let response = videoBackupRequest;
+    // console.log( videoBackupRequest);
+    // console.log(response);
+    sendResponse(response);
     setTimeout(() => {
       videoBackupRequest = false;
-    }, 2000);
+    }, 5000);
   } else if (message.info === "battery Flag") {
     let response = "Flagged battery status";
     sendResponse(response);
