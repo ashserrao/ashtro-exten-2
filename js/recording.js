@@ -6,8 +6,6 @@ let webcamRecorder = null;
 let examMode = "online";
 let examStatus = "exam-completed";
 
-let videoBackupRequest = false;
-
 // Open IndexedDB database==================================
 let db;
 const request = window.indexedDB.open("RecordingsDB", 1);
@@ -104,13 +102,13 @@ function saveRecording(dataArray, filename) {
 
   request.onerror = function (event) {
     console.error(
-      "Error saving recording to IndexedDB:",
+      "Error saving file to IndexedDB:",
       event.target.errorCode
     );
   };
 
   request.onsuccess = function (event) {
-    console.log("Recording saved to IndexedDB:", filename);
+    console.log("File saved to IndexedDB:", filename);
   };
 }
 
@@ -142,9 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
       info: "generate videoBackup",
     };
     chrome.runtime.sendMessage(message, (response) => {
-      videoBackupRequest = response;
-      // console.log("signal generated!!!", videoBackupRequest);
-      if (videoBackupRequest === true) {
+      response;
+      // console.log("signal generated!!!", response);
+      if (response === true) {
         console.log("backup generated!!!");
         playPauseVideo();
       }
@@ -168,10 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
             height: 999999999,
             displaySurface: "monitor",
           },
-          // selfBrowserSurface: "include",
-          // systemAudio: "include",
-          // surfaceSwitching: "include",
-          // monitorTypeSurfaces: "include",
         })
         .then((screenStream) => {
           // Now, get user media for webcam
@@ -241,7 +235,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function stopVideoFunc() {
     battFlagStatus = false;
     // console.log("stopping video");
-    if (!screenRecorder || !webcamRecorder) return console.log("no recording");
+    if (!screenRecorder || !webcamRecorder) {
+      let message = {
+        info: "no video",
+        msg: "No video recording to stop.",
+      };
+      chrome.runtime.sendMessage(message, (response) => {
+        console.log(response);
+      })
+      return console.log("no recording")
+    };
     screenRecorder.stop();
     webcamRecorder.stop();
   }

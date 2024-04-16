@@ -90,6 +90,10 @@ async function checkBitrate() {
   }
 }
 
+//capture ID and face function ====================================
+
+
+
 setInterval(() => {
   checkBitrate();
 }, 5000);

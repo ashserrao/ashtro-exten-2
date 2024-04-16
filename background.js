@@ -64,22 +64,23 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } else if (message.info === "AI") {
     sendResponse("Extension Flagging");
     saveGestureLogs(message);
+  } else if(message.info === "no video"){
+    sendResponse('video stopped due to no feed.')
+    videoBackupRequest = false;
   } else if (message.info === "video Flag") {
     sendResponse("video part from background.js");
     eventLogs(message);
+      videoBackupRequest = false;
   } else if (message.info === "request videobackup") {
     sendResponse("request acheived");
     videoBackupRequest = true;
     // console.log(`video backup request received: ${videoBackupRequest}`);
   } else if (message.info === "generate videoBackup") {
-    // console.log( `video backup from background.js ${videoBackupRequest}`);
+    // console.log( `video generate from background.js ${videoBackupRequest}`);
     let response = videoBackupRequest;
     // console.log( videoBackupRequest);
     // console.log(response);
     sendResponse(response);
-    setTimeout(() => {
-      videoBackupRequest = false;
-    }, 5000);
   } else if (message.info === "battery Flag") {
     let response = "Flagged battery status";
     sendResponse(response);
@@ -121,7 +122,6 @@ function getAllowedUrls() {
     // console.log("AllowedURls works");
     allowedUrls.push("https://provexam.com/");
     allowedUrls.push("https://home.pearsonvue.com/");
-    // console.log(allowedUrls);
   }
 }
 
@@ -144,8 +144,8 @@ function saveGestureLogs(message) {
 function eventLogs(message) {
   try {
     if (loginStatus === true && e_Status === "exam-ongoing") {
-      console.log(`Flag: Green; ${message.msg}, Timestamp: ${Date.now()}`);
-      Flags.push(`Flag: Green; ${message.msg}, Timestamp: ${Date.now()}`);
+      console.log(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
+      Flags.push(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
       console.log(Flags);
     } else {
       console.log("exam is not running!!");

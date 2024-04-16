@@ -298,13 +298,13 @@ document.addEventListener("DOMContentLoaded", function () {
 //request video backup ===================================
 function requestVideoBackup() {
   console.log("requestVideoBackup function is running");
-  console.log(`${loginStatus}`);
+  // console.log(`${loginStatus}`);
   if (loginStatus === true) {
     let message = {
       info: "request videobackup",
     };
     chrome.runtime.sendMessage(message, (response) => {
-      // console.log("Check if working:", response);
+      console.log("Check if working:", response);
     });
     // console.log("backup request triggered");
   } else {
