@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts and styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/assets/icon.ico">
+    <link rel="stylesheet" href="/css/common.css" />
+    <script src="/js/tailwindcss.js"></script>
+    <title>ExamLock Lite</title>
+</head>
+
+<body>
+    <style>
+        #video-container {
+            margin: 20px auto;
+            width: 300px;
+            height: auto;
+        }
+
+        video {
+            width: 650px;
+            height: fit-content;
+            position: relative;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            opacity: 0.85;
+            background-color: #7f8584;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 1;
+            font-size: 12px bold;
+            cursor: pointer;
+        }
+    </style>
+    <!-- logo and profile line -->
+    <div class="navbar p-2.5 flex flex-wrap text-lg font-medium">
+        <img src="/assets/icon.svg" />
+        ExamLock Lite
+        <span class="flex-auto"></span>
+    </div>
+    <hr />
+    <div class="videoSection my-0 mx-2">
+        <h6 class="text-base font-medium">Live Preview</h6>
+        <div>
+            <video class="rounded" id="live" autoplay></video>
+        </div>
+
+        <!-- capture and submit buttons -->
+        <button class="w-full bg-teal-600 text-slate-100 font-semibold rounded p-1 hover:bg-teal-700 my-2"
+            id="image-capture">Capture</button>
+
+        <!-- File upload field -->
+        <h6 class="text-base font-medium">Upload images</h6>
+        <input class="border-2 border-solid rounded mx-2" type="file" id="input-file"><button class="w-32 bg-teal-600 text-slate-100 font-semibold rounded p-1 hover:bg-teal-700 my-2"
+            id="image-upload">Add</button>
+        <h6 class="text-base font-medium">Image Preview</h6>
+        <div id="images"></div>
+
+        <!-- submission button -->
+        <button class="w-full bg-teal-600 text-slate-100 font-semibold rounded p-1 hover:bg-teal-700 my-2"
+            id="image-submit">Submit Images</button>
+    </div>
+    <script src="/js/id_face_capture.js"></script>
+</body>
+
+</html>

@@ -20,7 +20,7 @@ navigator.mediaDevices
 const beginSystemCheck = document.getElementById("exam-continue");
 
 function redirect() {
-  window.location = "./recording.html";
+  window.location = "./id_face_capture.html";
 }
 
 beginSystemCheck.onclick = redirect;

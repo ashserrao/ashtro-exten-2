@@ -126,10 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     chrome.runtime.sendMessage(message, (response) => {
-      // console.log(response);
       examMode = `${response.mode_of_exam}`;
       examStatus = `${response.exam_status}`;
-      // console.log(examStatus, examMode);
     });
   }
 
