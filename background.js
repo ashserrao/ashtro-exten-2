@@ -16,8 +16,6 @@ let allowedUrls = [
 
 let Flags = [];
 
-//
-//
 // on extension installation ======================
 chrome.runtime.onInstalled.addListener(() => {
   // chrome.tabs.create({ url: "https://www.examroom.ai" });
@@ -49,6 +47,46 @@ chrome.tabs.onUpdated.addListener(() => {
   } else {
     console.log("Exam is not running");
   }
+});
+
+// Function to create and show a push notification
+function showNotification() {
+  const options = {
+    type: "basic",
+    iconUrl: "assets/icon.png",
+    title: "Examlock Warning",
+    message: "Return back to your exam screen or the exam will be cancelled.",
+    priority: 3,
+  };
+
+  chrome.notifications.create('minimizedNotification', options, function(notificationId) {
+    // Add event listener for notification click
+    chrome.notifications.onClicked.addListener(function(clickedNotificationId) {
+      // Check if the clicked notification is the one we created
+      if (clickedNotificationId === notificationId) {
+        // Get active tab and focus on it
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          // Check if there are any tabs
+          if (tabs && tabs.length > 0) {
+            // Focus on the first active tab
+            chrome.tabs.update(tabs[0].id, {active: true});
+          }
+        });
+      }
+    });
+  });
+}
+
+chrome.tabs.onActivated.addListener((tab) => {
+  chrome.tabs.get(tab.tabId, (current_tab_info) => {
+    if (current_tab_info.url.includes("https://examroom.ai/")) {
+      chrome.windows.onFocusChanged.addListener((windowId) => {
+        if (windowId === chrome.windows.WINDOW_ID_NONE) {
+          showNotification();
+        }
+      });
+    }
+  });
 });
 
 // messsages listener ==================================================

@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
       captureAndUploadImage(function (blob) {
         // Add blob to the array
         imagesArray.push(blob);
+        console.log(imagesArray);
         // Display preview
         displayImagePreview(blob);
       });
@@ -100,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Convert the canvas content to a Blob
           canvas.toBlob(function (blob) {
             imagesArray.push(blob);
+            console.log(imagesArray);
             displayImagePreview(blob);
           }, "image/png");
         };
