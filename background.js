@@ -5,6 +5,7 @@ let loginStatus = false;
 let e_Status = "exam-completed";
 let examMode = "offline";
 
+
 let videoBackupRequest = false;
 
 let allowedUrls = [
@@ -24,7 +25,7 @@ chrome.runtime.onInstalled.addListener(() => {
       const tabUrl = tab.url;
       if (!allowedUrls.some((allowedurl) => tabUrl.includes(allowedurl))) {
         if (loginStatus === true) {
-          // chrome.tabs.remove(tab.id);
+          chrome.tabs.remove(tab.id);
           console.log(tab.id);
         }
       } else {
@@ -41,6 +42,7 @@ chrome.tabs.onUpdated.addListener(() => {
       allTabs.forEach((tab) => {
         if (!allowedUrls.some((allowedurl) => tab.url.includes(allowedurl))) {
           console.log(tab.url);
+          chrome.tabs.remove(tab.id);
         }
       });
     });
@@ -79,10 +81,19 @@ function showNotification() {
 
 chrome.tabs.onActivated.addListener((tab) => {
   chrome.tabs.get(tab.tabId, (current_tab_info) => {
-    if (current_tab_info.url.includes("https://examroom.ai/")) {
+    if (
+      current_tab_info.url.includes(
+        "https://testdeliveryconsole.examroom.ai/#/linear"
+      )
+    ) {
       chrome.windows.onFocusChanged.addListener((windowId) => {
         if (windowId === chrome.windows.WINDOW_ID_NONE) {
           showNotification();
+          const serveMessage = {
+            msg: `Flag: Red; Screen was minimized by the candidate, Timestamp: ${Date.now()}`,
+            timestamp: Date.now(),
+          };
+          postData("http://localhost:3000/Gesturelogs", serveMessage);
         }
       });
     }
@@ -99,16 +110,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse(response);
     getCandyDetails();
     getAllowedUrls(); // Call getData after updating the values
+  } else if (message.info === "Data received") {
+    console.log("BG received",message.data);
+    sendResponse("got your data");
   } else if (message.info === "AI") {
     sendResponse("Extension Flagging");
     saveGestureLogs(message);
-  } else if(message.info === "no video"){
-    sendResponse('video stopped due to no feed.')
+  } else if (message.info === "no video") {
+    sendResponse("video stopped due to no feed.");
     videoBackupRequest = false;
   } else if (message.info === "video Flag") {
     sendResponse("video part from background.js");
     eventLogs(message);
-      videoBackupRequest = false;
+    videoBackupRequest = false;
   } else if (message.info === "request videobackup") {
     sendResponse("request acheived");
     videoBackupRequest = true;
@@ -167,7 +181,13 @@ function getAllowedUrls() {
 function saveGestureLogs(message) {
   try {
     if (loginStatus === true && e_Status === "exam-ongoing") {
+          const serveMessage = {
+            msg: `Flag: Red; ${message.msg}, Timestamp: ${Date.now()}`,
+            timestamp: Date.now(),
+          };
+          postData("http://localhost:3000/Gesturelogs", serveMessage);
       console.log(`Flag: Red; ${message.msg}, Timestamp: ${Date.now()}`);
+
       Flags.push(`Flag: Red; ${message.msg}, Timestamp: ${Date.now()}`);
       console.log(Flags);
     } else {
@@ -182,6 +202,11 @@ function saveGestureLogs(message) {
 function eventLogs(message) {
   try {
     if (loginStatus === true && e_Status === "exam-ongoing") {
+    const serveMessage = {
+      msg: `Flag: White; ${message.msg}, Timestamp: ${Date.now()}`,
+      timestamp: Date.now(),
+    };
+      postData("http://localhost:3000/Gesturelogs", serveMessage);
       console.log(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
       Flags.push(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
       console.log(Flags);
@@ -191,4 +216,72 @@ function eventLogs(message) {
   } catch (error) {
     console.error("Error saving gesture logs:", error);
   }
+}
+
+// Post data =======================================
+function postData(url, data) {
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Post data response:", data);
+    })
+    .catch((error) => {
+      console.error("Error posting data:", error);
+    });
+}
+
+// Function on opening dev tools ===================
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name === "devtools") {
+    port.onMessage.addListener((msg) => {
+      if (msg.name === "openDevTools") {
+        fetchSystemIP();
+        onDevToolsOpen();
+      }
+    });
+  }
+});
+
+function onDevToolsOpen() {
+  chrome.tabs.query({ currentWindow: true }, (allTabs) => {
+    chrome.tabs.create({ url: "https://examroom.ai/34pizy6/" });
+    allTabs.forEach((tab) => {
+      const tabUrl = tab.url;
+      if (tabUrl === "https://examroom.ai/34pizy6/") {
+        console.log("you tried to hack us page");
+      } else {
+        chrome.tabs.remove(tab.id);
+      }
+    });
+  });
+}
+
+// Fetch system IP =================================
+function fetchSystemIP() {
+  fetch("https://api64.ipify.org?format=json")
+    .then((response) => response.json())
+    .then((data) => {
+      const systemIP = data.ip;
+      console.log("Current System IP:", systemIP);
+      const serveMessage = {
+        by: "chrome",
+        ip: data,
+        url: data.url,
+        remarks: "Dev tools opened by candidate",
+        timestamp: Date.now(),
+      };
+      postData("http://localhost:3000/Devlogs", serveMessage);
+    })
+    .catch((error) => {
+      console.error("Error fetching IP address:", error);
+    });
 }

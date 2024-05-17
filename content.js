@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // block content function ----------------------
   const blockContent = () => {
     if (loginStatus === true) {
-      // body.style.opacity = "0";
+      body.style.opacity = "0";
       console.log("content blocked");
     } else {
       console.log("content block failed since user is not logged in");
@@ -251,9 +251,9 @@ document.addEventListener("DOMContentLoaded", function () {
         info: "AI",
         msg: `${msg}`,
       };
-      // chrome.runtime.sendMessage(message, (response) => {
-      //   console.log(`${response},${msg}`);
-      // });
+      chrome.runtime.sendMessage(message, (response) => {
+        console.log(`${response},${msg}`);
+      });
       setTimeout(() => {
         makeTabFullScreen();
       }, 1000);
@@ -266,19 +266,19 @@ document.addEventListener("DOMContentLoaded", function () {
   function makeTabFullScreen() {
     const docElm = document.documentElement;
     if (loginStatus === true && e_Status == "exam-ongoing") {
-      // if (docElm.requestFullscreen) {
-      //   docElm.requestFullscreen();
-      // } else if (docElm.mozRequestFullScreen) {
-      //   /* Firefox */
-      //   docElm.mozRequestFullScreen();
-      // } else if (docElm.webkitRequestFullscreen) {
-      //   /* Chrome, Safari and Opera */
-      //   docElm.webkitRequestFullscreen();
-      // } else if (docElm.msRequestFullscreen) {
-      //   disabledEvent(docElm);
-      //   /* IE/Edge */
-      //   docElm.msRequestFullscreen();
-      // }
+      if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+      } else if (docElm.mozRequestFullScreen) {
+        /* Firefox */
+        docElm.mozRequestFullScreen();
+      } else if (docElm.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        docElm.webkitRequestFullscreen();
+      } else if (docElm.msRequestFullscreen) {
+        disabledEvent(docElm);
+        /* IE/Edge */
+        docElm.msRequestFullscreen();
+      }
       console.log('fullscreen');
     } else {
       console.log("exam is not running!");

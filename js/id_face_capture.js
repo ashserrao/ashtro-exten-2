@@ -2,12 +2,26 @@
 const submit = document.getElementById("image-submit");
 
 function redirect() {
+  transferFile();
   setTimeout(() => {
     window.location = "./recording.html";
-  }, 2000);
+  }, 5000);
 }
 
+const imagesArray = [];
+
 submit.onclick = redirect;
+
+function transferFile(){
+  let message = {
+    info: "Data received",
+    data: imagesArray
+  };
+  chrome.runtime.sendMessage(message, (response) => {
+    console.log("message received from background.js",response);
+  })
+}
+
 
 // capture and save picture============================================
 navigator.mediaDevices
@@ -26,7 +40,7 @@ navigator.mediaDevices
   });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const imagesArray = [];
+  // const imagesArray = [];
 
   function captureAndUploadImage(blobCallback) {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
