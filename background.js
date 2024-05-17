@@ -24,10 +24,8 @@ chrome.runtime.onInstalled.addListener(() => {
     allTabs.forEach((tab) => {
       const tabUrl = tab.url;
       if (!allowedUrls.some((allowedurl) => tabUrl.includes(allowedurl))) {
-        if (loginStatus === true) {
           chrome.tabs.remove(tab.id);
           console.log(tab.id);
-        }
       } else {
         chrome.tabs.reload(tab.id);
       }
@@ -41,7 +39,7 @@ chrome.tabs.onUpdated.addListener(() => {
     chrome.tabs.query({ currentWindow: true }, (allTabs) => {
       allTabs.forEach((tab) => {
         if (!allowedUrls.some((allowedurl) => tab.url.includes(allowedurl))) {
-          console.log(tab.url);
+          // console.log(tab.url);
           chrome.tabs.remove(tab.id);
         }
       });
@@ -111,11 +109,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     getCandyDetails();
     getAllowedUrls(); // Call getData after updating the values
   } else if (message.info === "Data received") {
-    console.log("BG received",message.data);
+    console.log("BG received", message.data);
     sendResponse("got your data");
   } else if (message.info === "AI") {
     sendResponse("Extension Flagging");
     saveGestureLogs(message);
+  } else if (message.info === "check-link") {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      // Ensure tabs[0] exists and then send the response with the active URL
+      if (tabs.length > 0) {
+        sendResponse({ message: "active url is:", url: tabs[0].url });
+      } else {
+        sendResponse({ message: "No active tab found" });
+      }
+    });
+    // Return true to indicate that the response will be sent asynchronously
+    return true;
   } else if (message.info === "no video") {
     sendResponse("video stopped due to no feed.");
     videoBackupRequest = false;

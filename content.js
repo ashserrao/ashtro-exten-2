@@ -6,6 +6,7 @@ let e_Status = "exam-completed";
 let battFlagStatus = false;
 let videoBackupRequest = false;
 let backupStatus = false;
+let liveLink = "https://testdeliveryconsole.examroom.ai/#/auth/login";
 
 function triggerExtension() {
   let message = {
@@ -19,8 +20,20 @@ function triggerExtension() {
   });
 }
 
+function checkActiveLink(){
+  let message = {
+    info: "check-link",
+    msg: "working",
+  };
+  chrome.runtime.sendMessage(message, (response) => {
+    // console.log("link received", response);
+    liveLink = response.url;
+  })
+}
+
 // triggerExtension();
 setInterval(function () {
+  checkActiveLink();
   triggerExtension();
   getBattDetails();
   getNetworkDetails();
@@ -67,7 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // block content function ----------------------
   const blockContent = () => {
-    if (loginStatus === true) {
+    if (
+      loginStatus === true &&
+      liveLink !== "https://testdeliveryconsole.examroom.ai/#/auth/login"
+    ) {
       body.style.opacity = "0";
       console.log("content blocked");
     } else {
