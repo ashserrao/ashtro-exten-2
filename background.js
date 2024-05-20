@@ -24,7 +24,7 @@ chrome.runtime.onInstalled.addListener(() => {
     allTabs.forEach((tab) => {
       const tabUrl = tab.url;
       if (!allowedUrls.some((allowedurl) => tabUrl.includes(allowedurl))) {
-          chrome.tabs.remove(tab.id);
+          // chrome.tabs.remove(tab.id);
           console.log(tab.id);
       } else {
         chrome.tabs.reload(tab.id);
@@ -40,7 +40,7 @@ chrome.tabs.onUpdated.addListener(() => {
       allTabs.forEach((tab) => {
         if (!allowedUrls.some((allowedurl) => tab.url.includes(allowedurl))) {
           // console.log(tab.url);
-          chrome.tabs.remove(tab.id);
+          // chrome.tabs.remove(tab.id);
         }
       });
     });
@@ -254,7 +254,7 @@ chrome.runtime.onConnect.addListener((port) => {
     port.onMessage.addListener((msg) => {
       if (msg.name === "openDevTools") {
         fetchSystemIP();
-        onDevToolsOpen();
+        // onDevToolsOpen();
       }
     });
   }

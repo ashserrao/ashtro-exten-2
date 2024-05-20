@@ -240,9 +240,9 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       chrome.runtime.sendMessage(message, (response) => {
         console.log(response);
-      })
-      return console.log("no recording")
-    };
+      });
+      return console.log("no recording");
+    }
     screenRecorder.stop();
     webcamRecorder.stop();
   }
@@ -258,6 +258,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   stopVideoButton.addEventListener("click", () => {
     stopVideoFunc();
+  });
+
+  // Rec trigger =============================================
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      startVideoFunc();
+    }, 2000);
   });
 
   //Display list of items =======================================

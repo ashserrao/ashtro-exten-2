@@ -26,7 +26,6 @@ function checkActiveLink(){
     msg: "working",
   };
   chrome.runtime.sendMessage(message, (response) => {
-    // console.log("link received", response);
     liveLink = response.url;
   })
 }

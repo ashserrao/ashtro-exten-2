@@ -16,6 +16,20 @@
 </head>
 
 <body class="canvas">
+<!-- blink feature styling -->
+<style>
+.clickcard{
+		animation: blinkingBackground 2s infinite;
+	}
+	@keyframes blinkingBackground{
+		0%		{ background-color: #fff;}
+		25%		{ background-color: #b9eafa;}
+		50%		{ background-color: #fff;}
+		75%		{ background-color: #b9eafa;}
+		100%	{ background-color: #fff;}
+  }
+</style>
+
   <!-- logo and profile line -->
   <div class="navbar p-2.5 flex flex-wrap text-lg font-medium">
     <img src="/assets/icon.svg" />
@@ -30,7 +44,7 @@
   <div class="my-0 mx-2">
     <!-- sub header -->
     <h6 class="text-base font-medium">System Check</h6>
-    <div class="border rounded overflow-y-scroll" id="clickcard">
+    <div class="h-5/6 border rounded overflow-y-scroll" id="clickcard">
       <h6 class="text-sm font-medium my-1 mx-2">Hardware Configurations</h6>
       <hr />
       <div class="my-1 mx-2 text-sm font-normal">

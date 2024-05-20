@@ -12,6 +12,8 @@ cardClick.onclick = redirect;
 
 //redirect function=====================
 function redirect() {
+  // clearing Interval======================================
+  clearInterval(runner);
   window.location = "./softConfig.html";
 }
 
@@ -154,7 +156,7 @@ function minimumRequirement() {
 }
 
 // CPU and RAM Load trigger ===============================
-setInterval(function () {
+const runner = setInterval(function () {
   SysStat();
   ramBar();
   cpuBar();
@@ -162,5 +164,9 @@ setInterval(function () {
   minimumRequirement();
 }, 2000);
 
-// clearing Interval======================================
-clearInterval();
+// blink trigger =============================================
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("clickcard").classList.add("clickcard");
+  }, 10000);
+});
