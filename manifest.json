@@ -25,7 +25,8 @@
     "tabCapture",
     "identity",
     "input",
-    "windows"
+    "windows",
+    "scripting"
   ],
   "background": {
     "service_worker": "background.js"

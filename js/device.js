@@ -1,3 +1,4 @@
+//media device trigger========================================
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -17,16 +18,17 @@ navigator.mediaDevices
     document.getElementById("microphone").src = "/assets/cross_mark.svg";
   });
 
+//page redirect trigger ==============================================
 const beginSystemCheck = document.getElementById("exam-continue");
 
 function redirect() {
+  clearInterval(runner);
   window.location = "./id_face_capture.html";
 }
 
 beginSystemCheck.onclick = redirect;
 
 //Local video Audio and video bitrate checking ===========================
-
 const audioBT = document.getElementById("audio-stat");
 const videoBT = document.getElementById("video-stat");
 
@@ -90,12 +92,8 @@ async function checkBitrate() {
   }
 }
 
-//capture ID and face function ====================================
-
-
-
-setInterval(() => {
+//runner ==============================================
+const runner = setInterval(() => {
   checkBitrate();
 }, 5000);
 
-clearInterval();

@@ -8,12 +8,17 @@ profileIconButton.onclick = function () {
 //Start system check =========================
 const beginSystemCheck = document.getElementById("begin-system-check");
 
+// Sys-check page trigger =========================
+beginSystemCheck.onclick = redirect;
+
+// Redirect to next page =============================
 function redirect() {
+  //Terminate interval=================
+  clearTimeout(runner);
   window.location = "./hardConfig.html";
 }
 
-beginSystemCheck.onclick = redirect;
-
+//OS check variable =================================
 const osCheck = document.getElementById("opsys");
 
 // OS check ==================================
@@ -21,7 +26,7 @@ function opCheck() {
   navigator.userAgentData
     .getHighEntropyValues(["platformVersion"])
     .then((ua) => {
-      const platformVersion = ua.platformVersion.split(".").map(Number); // Parse the version string to an array of numbers
+      const platformVersion = ua.platformVersion.split(".").map(Number);
       if (navigator.userAgentData.platform === "Windows") {
         if (platformVersion[0] >= 13) {
           osCheck.textContent = "Windows 11";
@@ -75,8 +80,7 @@ function opCheck() {
     });
 }
 
-setTimeout(() => {
+// Interval trigger ================================
+const runner = setTimeout(() => {
   opCheck();
-}, 2000)
-
-clearTimeout();
+}, 2000);

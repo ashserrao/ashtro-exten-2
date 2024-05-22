@@ -41,7 +41,7 @@ setInterval(function () {
 //battery status info ============================================
 function getNetworkDetails() {
  if (navigator.onLine) {
-   console.log(`Connected/${navigator.connection.effectiveType}`);
+  //  console.log(`Connected/${navigator.connection.effectiveType}`);
  } else {
    console.log("Not Connected");
  }
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loginStatus === true &&
       liveLink !== "https://testdeliveryconsole.examroom.ai/#/auth/login"
     ) {
-      body.style.opacity = "0";
+      // body.style.opacity = "0";
       console.log("content blocked");
     } else {
       console.log("content block failed since user is not logged in");
@@ -277,28 +277,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // function to make the tab full screen =================
-  function makeTabFullScreen() {
-    const docElm = document.documentElement;
-    if (loginStatus === true && e_Status == "exam-ongoing") {
-      if (docElm.requestFullscreen) {
-        docElm.requestFullscreen();
-      } else if (docElm.mozRequestFullScreen) {
-        /* Firefox */
-        docElm.mozRequestFullScreen();
-      } else if (docElm.webkitRequestFullscreen) {
-        /* Chrome, Safari and Opera */
-        docElm.webkitRequestFullscreen();
-      } else if (docElm.msRequestFullscreen) {
-        disabledEvent(docElm);
-        /* IE/Edge */
-        docElm.msRequestFullscreen();
-      }
-      console.log('fullscreen');
-    } else {
-      console.log("exam is not running!");
-    }
-  }
+  // // function to make the tab full screen =================
+  // function makeTabFullScreen() {
+  //   const docElm = document.documentElement;
+  //   if (loginStatus === true && e_Status == "exam-ongoing") {
+  //     if (docElm.requestFullscreen) {
+  //       docElm.requestFullscreen();
+  //     } else if (docElm.mozRequestFullScreen) {
+  //       /* Firefox */
+  //       docElm.mozRequestFullScreen();
+  //     } else if (docElm.webkitRequestFullscreen) {
+  //       /* Chrome, Safari and Opera */
+  //       docElm.webkitRequestFullscreen();
+  //     } else if (docElm.msRequestFullscreen) {
+  //       disabledEvent(docElm);
+  //       /* IE/Edge */
+  //       docElm.msRequestFullscreen();
+  //     }
+  //     console.log('fullscreen');
+  //   } else {
+  //     console.log("exam is not running!");
+  //   }
+  // }
 
 //   // Function to check if the document is already in full screen
 //   function isFullScreen() {
@@ -340,8 +340,9 @@ function disabledEvent(e) {
   }
 }
 
-document.addEventListener("contextmenu", (event) => {
-  if (loginStatus === true) {
-    event.preventDefault();
-  }
-});
+// Mouse right-click disable====================================
+// document.addEventListener("contextmenu", (event) => {
+//   if (loginStatus === true) {
+//     event.preventDefault();
+//   }
+// });

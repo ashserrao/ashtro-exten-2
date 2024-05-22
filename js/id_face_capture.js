@@ -5,23 +5,22 @@ function redirect() {
   transferFile();
   setTimeout(() => {
     window.location = "./recording.html";
-  }, 5000);
+  }, 2000);
 }
 
 const imagesArray = [];
 
 submit.onclick = redirect;
 
-function transferFile(){
+function transferFile() {
   let message = {
     info: "Data received",
-    data: imagesArray
+    data: imagesArray,
   };
   chrome.runtime.sendMessage(message, (response) => {
-    console.log("message received from background.js",response);
-  })
+    console.log("message received from background.js", response);
+  });
 }
-
 
 // capture and save picture============================================
 navigator.mediaDevices
@@ -123,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         img.src = dataUrl;
       };
       reader.readAsDataURL(file);
-      fileInput.value = '';
+      fileInput.value = "";
     });
 
   function displayImagePreview(blob) {
@@ -160,6 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(imagesArray);
       // Now you can send these blobs to your server for further processing, storage, etc.
       // Clear the array after submission if needed
-    //   imagesArray.length = 0;
+      //   imagesArray.length = 0;
     });
 });

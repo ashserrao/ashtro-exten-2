@@ -331,5 +331,6 @@ document.addEventListener("DOMContentLoaded", () => {
     getExamStatus();
   }, 2000);
 
-  clearInterval();
+  //Put it in the end of exam
+  // clearInterval(runner);
 });

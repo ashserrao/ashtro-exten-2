@@ -148,7 +148,7 @@ function minimumRequirement() {
     document.getElementById("core-number").src = "/assets/loaded.svg";
   }
 
-  if(cpu_used>70){
+  if (cpu_used > 70) {
     document.getElementById("cpu-req").src = "/assets/cross_mark.svg";
   } else {
     document.getElementById("cpu-req").src = "/assets/loaded.svg";
