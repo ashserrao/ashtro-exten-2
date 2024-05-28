@@ -1,6 +1,6 @@
 {
-  "name": "astro exten tailwind mod",
-  "version": "0.2.1",
+  "name": "ExamLock Lite",
+  "version": "1.0.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "landing.html",
@@ -9,7 +9,7 @@
   "icons": {
     "128": "/assets/icon.png"
   },
-  "host_permissions": ["http://*/*", "https://*/*", "*://localhost/*"],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "permissions": [
     "notifications",
     "tabs",

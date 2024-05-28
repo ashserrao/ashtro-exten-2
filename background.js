@@ -5,7 +5,6 @@ let loginStatus = false;
 let e_Status = "exam-completed";
 let examMode = "offline";
 
-
 let videoBackupRequest = false;
 
 let allowedUrls = [
@@ -24,8 +23,8 @@ chrome.runtime.onInstalled.addListener(() => {
     allTabs.forEach((tab) => {
       const tabUrl = tab.url;
       if (!allowedUrls.some((allowedurl) => tabUrl.includes(allowedurl))) {
-          // chrome.tabs.remove(tab.id);
-          console.log(tab.id);
+        // chrome.tabs.remove(tab.id);
+        console.log(tab.id);
       } else {
         chrome.tabs.reload(tab.id);
       }
@@ -39,7 +38,6 @@ chrome.tabs.onUpdated.addListener(() => {
     chrome.tabs.query({ currentWindow: true }, (allTabs) => {
       allTabs.forEach((tab) => {
         if (!allowedUrls.some((allowedurl) => tab.url.includes(allowedurl))) {
-          // console.log(tab.url);
           // chrome.tabs.remove(tab.id);
         }
       });
@@ -56,7 +54,7 @@ chrome.tabs.onCreated.addListener((tab) => {
   }
 });
 
-// Function to create and show a push notification
+// Function to create and show a push notification=======================
 function showNotification() {
   const options = {
     type: "basic",
@@ -66,33 +64,43 @@ function showNotification() {
     priority: 3,
   };
 
-  chrome.notifications.create('minimizedNotification', options, function(notificationId) {
-    // Add event listener for notification click
-    chrome.notifications.onClicked.addListener(function(clickedNotificationId) {
-      // Check if the clicked notification is the one we created
-      if (clickedNotificationId === notificationId) {
-        // Get active tab and focus on it
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-          // Check if there are any tabs
-          if (tabs && tabs.length > 0) {
-            // Focus on the first active tab
-            chrome.tabs.update(tabs[0].id, {active: true});
-          }
-        });
-      }
-    });
-  });
+  chrome.notifications.create(
+    "minimizedNotification",
+    options,
+    function (notificationId) {
+      chrome.notifications.onClicked.addListener(function (
+        clickedNotificationId
+      ) {
+        if (clickedNotificationId === notificationId) {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              if (tabs && tabs.length > 0) {
+                chrome.tabs.update(tabs[0].id, { active: true });
+              }
+            }
+          );
+        }
+      });
+    }
+  );
 }
 
+//screen minimize detection=============================================
 chrome.tabs.onActivated.addListener((tab) => {
   chrome.tabs.get(tab.tabId, (current_tab_info) => {
-    if (current_tab_info.url.includes("https://examroom.ai/")) {
+    if (current_tab_info.url.includes(allowedurl)) {
       chrome.windows.onFocusChanged.addListener((windowId) => {
         if (windowId === chrome.windows.WINDOW_ID_NONE) {
           showNotification();
           const serveMessage = {
-            msg: `Flag: Red; Screen was minimized by the candidate, Timestamp: ${Date.now()}`,
-            timestamp: Date.now(),
+            flag_type: "RED",
+            transfer_to: "Don''t Transfer",
+            reason: "Extension restricted activity",
+            comment: "Screen was minimized by the candidate",
+            attachments: "",
+            object: "",
+            date_time_stamp: Date.now(),
           };
           postData("http://localhost:3000/Gesturelogs", serveMessage);
         }
@@ -110,7 +118,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     };
     sendResponse(response);
     getCandyDetails();
-    getAllowedUrls(); // Call getData after updating the values
+    getAllowedUrls();
   } else if (message.info === "Data received") {
     console.log("BG received", message.data);
     sendResponse("got your data");
@@ -126,7 +134,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ message: "No active tab found" });
       }
     });
-    // Return true to indicate that the response will be sent asynchronously
     return true;
   } else if (message.info === "no video") {
     sendResponse("video stopped due to no feed.");
@@ -171,7 +178,6 @@ function getCandyDetails() {
     })
     .then((data) => {
       candidateDetails = data[0];
-      // console.log("candidateDetails fetched", data[0]);
       e_Status = data[0].exam_status;
       loginStatus = data[0].login_status;
     })
@@ -193,11 +199,16 @@ function getAllowedUrls() {
 function saveGestureLogs(message) {
   try {
     if (loginStatus === true && e_Status === "exam-ongoing") {
-          const serveMessage = {
-            msg: `Flag: Red; ${message.msg}, Timestamp: ${Date.now()}`,
-            timestamp: Date.now(),
-          };
-          postData("http://localhost:3000/Gesturelogs", serveMessage);
+      const serveMessage = {
+        flag_type: "RED",
+        transfer_to: "Don''t Transfer",
+        reason: "Extension restricted activity",
+        comment: `${message.msg}`,
+        attachments: "",
+        object: "",
+        date_time_stamp: Date.now(),
+      };
+      postData("http://localhost:3000/Gesturelogs", serveMessage);
       console.log(`Flag: Red; ${message.msg}, Timestamp: ${Date.now()}`);
 
       Flags.push(`Flag: Red; ${message.msg}, Timestamp: ${Date.now()}`);
@@ -214,10 +225,10 @@ function saveGestureLogs(message) {
 function eventLogs(message) {
   try {
     if (loginStatus === true && e_Status === "exam-ongoing") {
-    const serveMessage = {
-      msg: `Flag: White; ${message.msg}, Timestamp: ${Date.now()}`,
-      timestamp: Date.now(),
-    };
+      const serveMessage = {
+        msg: `Flag: White; ${message.msg}, Timestamp: ${Date.now()}`,
+        timestamp: Date.now(),
+      };
       postData("http://localhost:3000/Gesturelogs", serveMessage);
       console.log(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
       Flags.push(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
@@ -286,7 +297,7 @@ function fetchSystemIP() {
       console.log("Current System IP:", systemIP);
       const serveMessage = {
         by: "chrome",
-        ip: data,
+        ip: data.ip,
         url: data.url,
         remarks: "Dev tools opened by candidate",
         timestamp: Date.now(),

@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loginStatus === true &&
       liveLink !== "https://testdeliveryconsole.examroom.ai/#/auth/login"
     ) {
-      // body.style.opacity = "0";
+      body.style.opacity = "0";
       console.log("content blocked");
     } else {
       console.log("content block failed since user is not logged in");
@@ -307,16 +307,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("exam is not running!");
     }
   }
-
-  // Function to check if the document is already in full screen
-  // function isFullScreen() {
-  //   return (
-  //     document.fullscreenElement ||
-  //     document.mozFullScreenElement ||
-  //     document.webkitFullscreenElement ||
-  //     document.msFullscreenElement
-  //   );
-  // }
 });
 
 //request video backup ===================================
