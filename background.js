@@ -49,6 +49,13 @@ chrome.tabs.onUpdated.addListener(() => {
   }
 });
 
+//detects incognito tab and closes it=============================
+chrome.tabs.onCreated.addListener((tab) => {
+  if (tab.incognito) {
+    chrome.tabs.remove(tab.id);
+  }
+});
+
 // Function to create and show a push notification
 function showNotification() {
   const options = {
@@ -79,11 +86,7 @@ function showNotification() {
 
 chrome.tabs.onActivated.addListener((tab) => {
   chrome.tabs.get(tab.tabId, (current_tab_info) => {
-    if (
-      current_tab_info.url.includes(
-        "https://testdeliveryconsole.examroom.ai/#/linear"
-      )
-    ) {
+    if (current_tab_info.url.includes("https://examroom.ai/")) {
       chrome.windows.onFocusChanged.addListener((windowId) => {
         if (windowId === chrome.windows.WINDOW_ID_NONE) {
           showNotification();

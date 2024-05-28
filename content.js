@@ -30,6 +30,13 @@ function checkActiveLink(){
   })
 }
 
+// evade direct window exit =====================================
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  e.returnValue = "";
+});
+
+
 // triggerExtension();
 setInterval(function () {
   checkActiveLink();
@@ -95,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
     body.style.opacity = "1";
   };
 
+  //deteching screen resizing========================================
   document.addEventListener("mousemove", function (e) {
     // console.log("return full screen");
     detectOffsetChanges((offsetX, offsetY) => {
@@ -103,8 +111,8 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       console.log("return to full screen");
       setTimeout(() => {
-        // makeTabFullScreen();
-      }, 5000)
+        makeTabFullScreen();
+      }, 3000)
     });
     disabledEvent(e);
   });
@@ -277,38 +285,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // // function to make the tab full screen =================
-  // function makeTabFullScreen() {
-  //   const docElm = document.documentElement;
-  //   if (loginStatus === true && e_Status == "exam-ongoing") {
-  //     if (docElm.requestFullscreen) {
-  //       docElm.requestFullscreen();
-  //     } else if (docElm.mozRequestFullScreen) {
-  //       /* Firefox */
-  //       docElm.mozRequestFullScreen();
-  //     } else if (docElm.webkitRequestFullscreen) {
-  //       /* Chrome, Safari and Opera */
-  //       docElm.webkitRequestFullscreen();
-  //     } else if (docElm.msRequestFullscreen) {
-  //       disabledEvent(docElm);
-  //       /* IE/Edge */
-  //       docElm.msRequestFullscreen();
-  //     }
-  //     console.log('fullscreen');
-  //   } else {
-  //     console.log("exam is not running!");
-  //   }
-  // }
+  // function to make the tab full screen =================
+  function makeTabFullScreen() {
+    const docElm = document.documentElement;
+    if (loginStatus === true && e_Status == "exam-ongoing") {
+      if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+      } else if (docElm.mozRequestFullScreen) {
+        /* Firefox */
+        docElm.mozRequestFullScreen();
+      } else if (docElm.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        docElm.webkitRequestFullscreen();
+      } else if (docElm.msRequestFullscreen) {
+        disabledEvent(docElm);
+        /* IE/Edge */
+        docElm.msRequestFullscreen();
+      }
+      console.log('fullscreen');
+    } else {
+      console.log("exam is not running!");
+    }
+  }
 
-//   // Function to check if the document is already in full screen
-//   function isFullScreen() {
-//     return (
-//       document.fullscreenElement ||
-//       document.mozFullScreenElement ||
-//       document.webkitFullscreenElement ||
-//       document.msFullscreenElement
-//     );
-//   }
+  // Function to check if the document is already in full screen
+  // function isFullScreen() {
+  //   return (
+  //     document.fullscreenElement ||
+  //     document.mozFullScreenElement ||
+  //     document.webkitFullscreenElement ||
+  //     document.msFullscreenElement
+  //   );
+  // }
 });
 
 //request video backup ===================================
@@ -341,8 +349,24 @@ function disabledEvent(e) {
 }
 
 // Mouse right-click disable====================================
-// document.addEventListener("contextmenu", (event) => {
-//   if (loginStatus === true) {
-//     event.preventDefault();
-//   }
-// });
+document.addEventListener("contextmenu", (event) => {
+  if (loginStatus === true) {
+    event.preventDefault();
+  }
+});
+
+
+//disable content selection=================================
+function disableSelection() {
+    // Disable text selection on the entire document
+    document.addEventListener('selectstart', disableEvent);
+    document.addEventListener('mousedown', disableEvent);
+}
+
+function disableEvent(event) {
+    // Prevent the default action of the event
+    event.preventDefault();
+}
+
+// Example usage:
+disableSelection();
