@@ -4,7 +4,6 @@ let candidateDetails;
 let loginStatus = false;
 let e_Status = "exam-completed";
 let examMode = "offline";
-
 let videoBackupRequest = false;
 
 let allowedUrls = [
@@ -23,7 +22,7 @@ chrome.runtime.onInstalled.addListener(() => {
     allTabs.forEach((tab) => {
       const tabUrl = tab.url;
       if (!allowedUrls.some((allowedurl) => tabUrl.includes(allowedurl))) {
-        // chrome.tabs.remove(tab.id);
+        chrome.tabs.remove(tab.id);
         console.log(tab.id);
       } else {
         chrome.tabs.reload(tab.id);
@@ -38,7 +37,7 @@ chrome.tabs.onUpdated.addListener(() => {
     chrome.tabs.query({ currentWindow: true }, (allTabs) => {
       allTabs.forEach((tab) => {
         if (!allowedUrls.some((allowedurl) => tab.url.includes(allowedurl))) {
-          // chrome.tabs.remove(tab.id);
+          chrome.tabs.remove(tab.id);
         }
       });
     });
@@ -89,7 +88,7 @@ function showNotification() {
 //screen minimize detection=============================================
 chrome.tabs.onActivated.addListener((tab) => {
   chrome.tabs.get(tab.tabId, (current_tab_info) => {
-    if (current_tab_info.url.includes(allowedurl)) {
+    if (current_tab_info.url.includes("https://examroom.ai/")) {
       chrome.windows.onFocusChanged.addListener((windowId) => {
         if (windowId === chrome.windows.WINDOW_ID_NONE) {
           showNotification();
@@ -226,12 +225,17 @@ function eventLogs(message) {
   try {
     if (loginStatus === true && e_Status === "exam-ongoing") {
       const serveMessage = {
-        msg: `Flag: White; ${message.msg}, Timestamp: ${Date.now()}`,
-        timestamp: Date.now(),
+        flag_type: "WHITE",
+        transfer_to: "Don''t Transfer",
+        reason: `${message.rson}`,
+        comment: `${message.msg}`,
+        attachments: "",
+        object: "",
+        date_time_stamp: Date.now(),
       };
       postData("http://localhost:3000/Gesturelogs", serveMessage);
-      console.log(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
-      Flags.push(`Flag: White; ${message.msg}, Timestamp: ${Date.now()}`);
+      console.log(serveMessage);
+      Flags.push(serveMessage);
       console.log(Flags);
     } else {
       console.log("exam is not running!!");

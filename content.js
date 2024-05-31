@@ -20,14 +20,14 @@ function triggerExtension() {
   });
 }
 
-function checkActiveLink(){
+function checkActiveLink() {
   let message = {
     info: "check-link",
     msg: "working",
   };
   chrome.runtime.sendMessage(message, (response) => {
     liveLink = response.url;
-  })
+  });
 }
 
 // evade direct window exit =====================================
@@ -35,7 +35,6 @@ window.addEventListener("beforeunload", function (e) {
   e.preventDefault();
   e.returnValue = "";
 });
-
 
 // triggerExtension();
 setInterval(function () {
@@ -47,11 +46,11 @@ setInterval(function () {
 
 //battery status info ============================================
 function getNetworkDetails() {
- if (navigator.onLine) {
-  //  console.log(`Connected/${navigator.connection.effectiveType}`);
- } else {
-   console.log("Not Connected");
- }
+  if (navigator.onLine) {
+    //  console.log(`Connected/${navigator.connection.effectiveType}`);
+  } else {
+    console.log("Not Connected");
+  }
 }
 
 //battery status info ============================================
@@ -63,6 +62,7 @@ function getBattDetails() {
       // low battery auto Flag =================================
       let message = {
         info: "battery Flag",
+        rson: "Low battery",
         msg: "Flagging low battery alert.",
       };
       chrome.runtime.sendMessage(message, (response) => {
@@ -102,36 +102,59 @@ document.addEventListener("DOMContentLoaded", function () {
     body.style.opacity = "1";
   };
 
-  //deteching screen resizing========================================
-  document.addEventListener("mousemove", function (e) {
-    // console.log("return full screen");
-    detectOffsetChanges((offsetX, offsetY) => {
-      console.log(
-        `Window offset changed: offsetX=${offsetX}, offsetY=${offsetY}`
-      );
-      console.log("return to full screen");
-      setTimeout(() => {
-        makeTabFullScreen();
-      }, 3000)
-    });
-    disabledEvent(e);
-  });
+  // deteching screen resizing========================================
+  // document.addEventListener("mousemove", function (e) {
+  //   // console.log("return full screen");
+  //   detectOffsetChanges((offsetX, offsetY) => {
+  //     console.log(
+  //       `Window offset changed: offsetX=${offsetX}, offsetY=${offsetY}`
+  //     );
+  //     console.log("return to full screen");
+  //     setTimeout(() => {
+  //       makeTabFullScreen();
+  //     }, 3000);
+  //   });
+  //   disabledEvent(e);
+  // });
 
-  let lastOffsetX = window.screenX;
-  let lastOffsetY = window.screenY;
+  // let lastOffsetX = window.screenX;
+  // let lastOffsetY = window.screenY;
 
-  //function to detech offset=======================
-  function detectOffsetChanges(callback, interval = 100) {
-    setInterval(() => {
-      const currentOffsetX = window.screenX;
-      const currentOffsetY = window.screenY;
+  // //function to detech offset=======================
+  // function detectOffsetChanges(callback, interval = 100) {
+  //   setInterval(() => {
+  //     const currentOffsetX = window.screenX;
+  //     const currentOffsetY = window.screenY;
 
-      if (currentOffsetX !== lastOffsetX || currentOffsetY !== lastOffsetY) {
-        lastOffsetX = currentOffsetX;
-        lastOffsetY = currentOffsetY;
-        callback(lastOffsetX, lastOffsetY);
-      }
-    }, interval);
+  //     if (currentOffsetX !== lastOffsetX || currentOffsetY !== lastOffsetY) {
+  //       lastOffsetX = currentOffsetX;
+  //       lastOffsetY = currentOffsetY;
+  //       callback(lastOffsetX, lastOffsetY);
+  //     }
+  //   }, interval);
+  // }
+
+  //fullscreen exit detection======================
+  document.addEventListener("fullscreenchange", exitHandler, false);
+  document.addEventListener("mozfullscreenchange", exitHandler, false);
+  document.addEventListener("MSFullscreenChange", exitHandler, false);
+  document.addEventListener("webkitfullscreenchange", exitHandler, false);
+
+  function exitHandler() {
+    if (
+      !document.webkitIsFullScreen &&
+      !document.mozFullScreen &&
+      !document.msFullscreenElement
+    ) {
+      let message = {
+        info: "AI",
+        msg: "Candidate has exited the full screen",
+      };
+      chrome.runtime.sendMessage(message, (response) => {
+        console.log(`${response},${message.msg}`);
+      });
+      blockContent();
+    }
   }
 
   // keydown event listener --------------------------
@@ -285,24 +308,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // function to make the tab full screen =================
+  // Function to make the tab full screen
   function makeTabFullScreen() {
     const docElm = document.documentElement;
-    if (loginStatus === true && e_Status == "exam-ongoing") {
+    if (loginStatus === true && e_Status === "exam-ongoing") {
       if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
       } else if (docElm.mozRequestFullScreen) {
-        /* Firefox */
+        // Firefox
         docElm.mozRequestFullScreen();
       } else if (docElm.webkitRequestFullscreen) {
-        /* Chrome, Safari and Opera */
+        // Chrome, Safari and Opera
         docElm.webkitRequestFullscreen();
       } else if (docElm.msRequestFullscreen) {
-        disabledEvent(docElm);
-        /* IE/Edge */
+        // IE/Edge
         docElm.msRequestFullscreen();
+        disabledEvent(docElm); // This function call should be placed correctly
       }
-      console.log('fullscreen');
+      console.log("fullscreen");
     } else {
       console.log("exam is not running!");
     }
@@ -345,18 +368,14 @@ document.addEventListener("contextmenu", (event) => {
   }
 });
 
-
 //disable content selection=================================
 function disableSelection() {
-    // Disable text selection on the entire document
-    document.addEventListener('selectstart', disableEvent);
-    document.addEventListener('mousedown', disableEvent);
+  document.addEventListener("selectstart", disableEvent);
+  document.addEventListener("mousedown", disableEvent);
 }
 
 function disableEvent(event) {
-    // Prevent the default action of the event
-    event.preventDefault();
+  event.preventDefault();
 }
 
-// Example usage:
 disableSelection();
